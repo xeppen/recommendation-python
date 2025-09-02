@@ -1,0 +1,3 @@
+Error in query string: Error processing job 'we-select-data-
+prod:bqjob_r49842c90f1586e24_0000019909aa6500_1': Syntax error: Unexpected
+keyword WHERE at [5:7]

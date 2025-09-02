@@ -1,0 +1,3 @@
+Error in query string: Error processing job 'we-select-data-
+prod:bqjob_r37473c6d6c963071_0000019909ac7943_1': Unrecognized name:
+campaign_name; Did you mean campaign_id? at [4:3]

@@ -1,0 +1,3 @@
+Error in query string: Error processing job 'we-select-data-
+prod:bqjob_r473776e0aff9dd63_0000019909aa6cf9_1': Syntax error: Unexpected
+keyword WHERE at [12:5]

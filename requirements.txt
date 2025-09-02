@@ -4,3 +4,7 @@ faiss-cpu
 pandas
 openpyxl
 google-cloud-bigquery
+sentence-transformers
+plotly
+scikit-learn
+numpy
