@@ -1,0 +1,27 @@
+Roll,Platform,Total_Impressions,Total_Clicks,Total_Spend_SEK,Campaign_Days,CTR_Percent,CPC_SEK,Daily_Spend_SEK,Number_of_Campaigns,Storlek_pa_Stad,Category,Avg_CTR,Avg_CPC,Total_Budget_Used,Meta,LinkedIn,Snapchat,Reddit,TikTok
+Administrativ assistent,Facebook,2164209,94330,129165.86,1822,4.1555,1.6725,70.9325,4,Multiple Cities,Data & IT,4.156,1.67,129165.86,True,False,False,False,False
+Administrativ assistent,Linkedin,331527,3646,32224.01,405,1.1,8.84,79.57,1,Multiple Cities,Retail & Grocery Stores,1.1,8.84,32224.01,False,True,False,False,False
+Allmän rekrytering,Facebook,5768436,221218,389466.79,3228,3.965454545454546,1.8454545454545455,153.41,11,Multiple Cities,Public Administration,3.965,1.85,389466.79,True,False,False,False,False
+Allmän rekrytering,Linkedin,92242,547,83244.19,330,0.5926666666666667,174.26666666666665,268.5833333333333,3,Stor stad,Public Administration,0.593,174.27,83244.19,False,True,False,False,False
+Butikssäljare,Facebook,5615621,133922,263468.44,1824,2.45675,2.1025,144.4325,4,Mellanstor stad,Retail & Grocery Stores,2.457,2.1,263468.44,True,False,False,False,False
+Digital marknadsförare,Facebook,1412254,54563,77517.02,664,3.9345,1.5350000000000001,116.74499999999999,2,Multiple Cities,Automotive,3.934,1.54,77517.02,True,False,False,False,False
+Ekonom,Facebook,594705,11595,52875.88,914,2.0515,4.585000000000001,57.835,2,Stor stad,Consulting,2.052,4.59,52875.88,True,False,False,False,False
+Ekonom,Linkedin,34655,111,26078.54,343,0.32,234.94,76.03,1,Stor stad,Consulting,0.32,234.94,26078.54,False,True,False,False,False
+Fastighetsmäklare,Facebook,1919713,92265,135317.83,1830,4.866,1.5425,73.94,4,Stor stad,Real Estate,4.866,1.54,135317.83,True,False,False,False,False
+Fastighetsmäklare,Linkedin,157064,1770,89868.23,1118,1.1006666666666667,66.83666666666666,79.75333333333333,3,Stor stad,Real Estate,1.101,66.84,89868.23,False,True,False,False,False
+Försäljningsrepresentant,Facebook,576491,7405,53039.36,184,1.2825000000000002,7.21,288.26,2,Liten stad,Technology & Electronics,1.283,7.21,53039.36,True,False,False,False,False
+Försäljningsrepresentant,Linkedin,70859,311,51479.8,184,0.439,172.15499999999997,279.78,2,Liten stad,Technology & Electronics,0.439,172.15,51479.8,False,True,False,False,False
+Försäljningsrepresentant,Tiktok,999567,9600,51459.009999999995,184,1.0045,5.405,279.67,2,Liten stad,Technology & Electronics,1.004,5.4,51459.01,False,False,False,False,True
+IT-specialist,Facebook,7529750,197187,474688.9,5520,2.6643076923076925,2.9069230769230767,89.11615384615385,13,Multiple Cities,Technology & Electronics,2.664,2.91,474688.9,True,False,False,False,False
+IT-specialist,Linkedin,187701,1506,87875.64,1140,0.8053333333333335,70.12666666666667,76.75666666666666,3,Multiple Cities,Technology & Electronics,0.805,70.13,87875.64,False,True,False,False,False
+IT-specialist,Tiktok,6865070,59386,87433.57,1255,0.8833333333333333,1.4766666666666666,69.7,3,Multiple Cities,Technology & Electronics,0.883,1.48,87433.57,False,False,False,False,True
+Ingenjör,Facebook,3978041,117720,190767.78,1832,3.01975,1.685,104.13,4,Multiple Cities,"Construction, Civil Engineering & Infrastructure",3.02,1.68,190767.78,True,False,False,False,False
+Ingenjör,Linkedin,440156,1760,164843.8,1622,0.448,109.2425,101.45,4,Multiple Cities,"Construction, Civil Engineering & Infrastructure",0.448,109.24,164843.8,False,True,False,False,False
+Logistikkoordinator,Facebook,4207695,255280,212404.76,1810,5.89375,0.9850000000000001,117.32,4,Multiple Cities,Retail & Grocery Stores,5.894,0.99,212404.76,True,False,False,False,False
+Logistikkoordinator,Snapchat,688402,18463,36674.02,403,2.682,1.99,91.0,1,Multiple Cities,Retail & Grocery Stores,2.682,1.99,36674.02,False,False,True,False,False
+Mekaniker,Facebook,377203,15446,24488.61,273,4.095,1.59,89.7,1,Multiple Cities,Automotive,4.095,1.59,24488.61,True,False,False,False,False
+Produktionstekniker,Facebook,1589132,46652,81913.06999999999,996,2.9406666666666665,1.8933333333333333,126.91666666666667,3,Multiple Cities,"Construction, Civil Engineering & Infrastructure",2.941,1.89,81913.07,True,False,False,False,False
+Sjuksköterska,Facebook,2030045,80099,162521.02,1765,4.11775,2.0,92.2775,4,Multiple Cities,Healthcare,4.118,2.0,162521.02,True,False,False,False,False
+Sjuksköterska,Linkedin,10745,93,21949.3,273,0.866,236.01,80.4,1,Multiple Cities,Healthcare,0.866,236.01,21949.3,False,True,False,False,False
+Säkerhetsvakt,Facebook,463474,12749,25437.12,186,2.751,2.0,136.76,1,Liten stad,Safety & Security,2.751,2.0,25437.12,True,False,False,False,False
+Underhållstekniker,Facebook,1638552,57007,111351.55,1102,3.4763333333333333,1.9400000000000002,102.45,3,Multiple Cities,Telecommunication,3.476,1.94,111351.55,True,False,False,False,False
