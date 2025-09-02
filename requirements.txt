@@ -4,6 +4,10 @@ faiss-cpu
 pandas
 openpyxl
 google-cloud-bigquery
+google-auth
+google-auth-oauthlib
+pyarrow
+db-dtypes
 sentence-transformers
 plotly
 scikit-learn
