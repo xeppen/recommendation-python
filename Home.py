@@ -426,11 +426,36 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
         channels_df['Platform'] = channels_df['Kanal'].str.capitalize()
         
         # Hämta kampanjdata för insikter
+        campaigns_df = None
+        
+        # Försök först från BigQuery om tillgängligt
         try:
-            campaigns_df = pd.read_csv('data/processed/campaigns_clean_for_bigquery.csv')
+            from src.utils.bigquery_connector import get_bigquery_connector
+            bq = get_bigquery_connector()
+            campaigns_df = bq.get_campaign_data()
+        except:
+            pass
+        
+        # Fallback till lokal fil
+        if campaigns_df is None or campaigns_df.empty:
+            try:
+                campaigns_df = pd.read_csv('data/processed/campaigns_clean_for_bigquery.csv')
+            except:
+                try:
+                    # Försök med original-filen
+                    campaigns_df = pd.read_csv('data/processed/all_platforms_campaigns_complete.csv')
+                    # Filtrera bort Employer Branding
+                    campaigns_df = campaigns_df[~campaigns_df['Campaign_Name'].str.contains('Employer Branding', case=False, na=False)]
+                except:
+                    pass
+        
+        if campaigns_df is not None and not campaigns_df.empty:
+            st.success(f"✅ Laddat {len(campaigns_df)} kampanjer för analys")
             display_data_insights(role, channels_df, campaigns_df)
-        except Exception as e:
+        else:
             st.info(f"💡 Data-drivna insikter kommer visas när historisk data är tillgänglig")
+            if st.checkbox("Visa debug-info"):
+                st.write("campaigns_df är:", "None" if campaigns_df is None else f"Tom ({len(campaigns_df)} rader)")
     
     # Suggested channel mix
     if recommendations['suggested_mix']:
