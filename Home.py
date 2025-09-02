@@ -340,7 +340,7 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
                 # Highlight selected tier
                 if is_selected:
                     st.success(f"**{tier_label}** ✓")
-            else:
+                else:
                     st.info(tier_label)
                 
                 st.metric(
