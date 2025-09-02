@@ -9,7 +9,7 @@ import numpy as np
 from typing import Dict, Tuple, Optional
 
 class BudgetRecommender:
-    def __init__(self, campaign_data_path: str = 'all_platforms_campaigns_complete.csv'):
+    def __init__(self, campaign_data_path: str = 'data/processed/all_platforms_campaigns_complete.csv'):
         """Initialize budget recommender with campaign data."""
         self.df = pd.read_csv(campaign_data_path)
         self._prepare_data()

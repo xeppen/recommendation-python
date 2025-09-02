@@ -14,8 +14,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Import the industry-aware recommendation engine and budget recommender
-from recommendation_engine_v3 import IndustryAwareRecommendationEngine
-from budget_recommender import BudgetRecommender
+from src.engines.recommendation_engine_v3 import IndustryAwareRecommendationEngine
+from src.engines.budget_recommender import BudgetRecommender
 
 # Page config
 st.set_page_config(
@@ -222,7 +222,7 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
                 # Highlight selected tier
                 if is_selected:
                     st.success(f"**{tier_label}** ✓")
-                else:
+            else:
                     st.info(tier_label)
                 
                 st.metric(
@@ -568,7 +568,7 @@ def main():
                 help="Rekommenderad budget för 30 dagar"
             )
         with col2:
-            st.metric(
+                st.metric(
                 "Utvecklare - IT & Tech",
                 "1,450-1,860 SEK",
                 "~105-135 klick",

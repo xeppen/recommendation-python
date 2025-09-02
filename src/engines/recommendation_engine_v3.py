@@ -13,7 +13,7 @@ from typing import Dict, List, Tuple, Optional
 import re
 
 class IndustryAwareRecommendationEngine:
-    def __init__(self, campaign_data_path: str = 'all_platforms_campaigns_complete.csv'):
+    def __init__(self, campaign_data_path: str = 'data/processed/all_platforms_campaigns_complete.csv'):
         """Initialize with role and industry categorization."""
         self.model = SentenceTransformer('KBLab/sentence-bert-swedish-cased')
         self.campaign_df = self._load_and_process_campaign_data(campaign_data_path)

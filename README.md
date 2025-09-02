@@ -1,109 +1,124 @@
-# AI-Powered Job Recommendation System
+# 🎯 Smart Rekryteringsrekommendationer
 
-An intelligent recommendation system that matches job titles to optimal advertising packages using AI and machine learning.
+En AI-driven rekommendationsmotor för rekryteringskampanjer som analyserar över 10,000 historiska kampanjer för att ge träffsäkra rekommendationer om budget, kanalmix och förväntade resultat.
 
-## 🚀 Features
+## ✨ Funktioner
 
-### Core Functionality
-- **Smart Job Matching**: Uses OpenAI embeddings and FAISS vector similarity search
-- **Multi-Parameter Input**: Job title, seniority level, and city size
-- **AI Industry Categorization**: Automatic classification using GPT-3.5
-- **Word Stem Matching**: Handles Swedish compound words (e.g., "redovisningsekonom" → "ekonom")
-- **Cosine Similarity Scoring**: Accurate semantic similarity measurements
+### 🏢 Branschmedveten Rekommendationsmotor
+- **203 unika roll-bransch kombinationer** för ultra-specifika rekommendationer
+- Intelligent matchning med semantisk likhet (sentence-transformers)
+- Anpassade strategier per bransch (t.ex. Butikschef inom Dagligvaror vs Mode)
 
-### Advanced Features
-- **Manual Training Data**: Add corrections when AI predictions are poor
-- **Branch Mismatch Warnings**: Visual alerts when industries don't align
-- **Real-time System Updates**: Reload training data without restart
-- **Bilingual Support**: Full Swedish/English language switching
-- **Smart Fallback Logic**: Multi-tier matching (exact → stem → industry → embedding)
+### 💰 Automatiska Budgetrekommendationer
+- **Tre nivåer**: Grundläggande, Rekommenderad, Premium
+- Data-driven baserat på framgångsrika kampanjer
+- Visar förväntade klick och framgångssannolikhet
 
-## 🛠️ Tech Stack
+### 📊 Kanaloptimering
+- Rekommenderar optimal mix av sociala medier
+- Performance score för varje kanal
+- Historisk CTR och CPC per plattform
 
-- **Frontend**: Streamlit
-- **AI/ML**: OpenAI (embeddings + GPT-3.5), FAISS
-- **Data**: Pandas, Excel integration
-- **Languages**: Python 3.9+
+### 🎨 Modern UI med Dark Theme
+- Förbättrad kontrast och läsbarhet
+- Interaktiva visualiseringar med Plotly
+- Responsiv design
 
-## 📋 Requirements
+## 🚀 Kom igång
 
-```
-streamlit
-openai
-faiss-cpu
-pandas
-openpyxl
-```
+### Installation
 
-## 🚀 Quick Start
+```bash
+# Klona repot
+git clone [repo-url]
+cd recommendation-python
 
-1. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Set OpenAI API key**:
-   ```bash
-   export OPENAI_API_KEY="your-api-key-here"
-   ```
-
-3. **Run the application**:
-   ```bash
-   streamlit run app.py
-   ```
-
-4. **Open in browser**: http://localhost:8501
-
-## 💡 How to Use
-
-1. **Select Language**: Choose between 🇸🇪 Svenska or 🇬🇧 English
-2. **Enter Job Details**:
-   - Job title (e.g., "Software Engineer", "Sjuksköterska")
-   - Seniority level
-   - City size
-3. **View Recommendations**: Get package, channels, and budget suggestions
-4. **Improve System**: Use manual training for poor matches (score < 0.8)
-
-## 🔧 System Architecture
-
-### Matching Logic
-1. **Exact Match**: Role + seniority + city size
-2. **Word Stem Match**: Swedish compound words (score: 0.85)
-3. **Industry Match**: AI categorization within same industry
-4. **Embedding Fallback**: Cosine similarity search
-
-### Data Flow
-```
-Input → Embedding → FAISS Search → Industry Check → Recommendation
-                     ↓
-              Manual Training ← Low Score Alert
+# Installera dependencies
+pip install -r requirements.txt
 ```
 
-## 📊 Training Data
+### Kör applikationen
 
-- **Source**: Excel file (`Träningsdata Ragnarsson.xlsx`)
-- **Structure**: Role, Category, City Size, Seniority, Channels, Package, Budget
-- **Dynamic**: Add new training data through the UI
+```bash
+streamlit run Home.py
+```
 
-## 🌍 Language Support
+Öppna sedan http://localhost:8502 i din webbläsare.
 
-The system supports full bilingual operation:
-- **UI Translation**: All interface elements
-- **Data Mapping**: English inputs converted to Swedish database values
-- **Seamless Switching**: Change language without losing functionality
+## 📁 Projektstruktur
 
-## 🔮 Future Enhancements
+```
+recommendation-python/
+├── Home.py                    # Huvudapplikation (Streamlit)
+├── pages/                     # Streamlit-sidor
+│   └── 1_📋_Alla_Roller.py   # Översikt av alla roller
+├── src/
+│   └── engines/              # Rekommendationsmotorer
+│       ├── recommendation_engine_v3.py  # Branschmedveten motor
+│       └── budget_recommender.py        # Budgetrekommendationer
+├── data/
+│   ├── raw/                  # Rådata från BigQuery
+│   └── processed/            # Processad data
+│       └── all_platforms_campaigns_complete.csv  # Huvuddataset
+├── scripts/                  # Databearbetningsskript
+└── requirements.txt          # Python dependencies
+```
 
-- [ ] More languages (Norwegian, Danish)
-- [ ] Advanced analytics dashboard
-- [ ] A/B testing for recommendations
-- [ ] API endpoints for integration
-- [ ] Automated model retraining
+## 💡 Användning
+
+### Exempel: Butikschef - Dagligvaror
+
+1. Välj **Roll**: Butikschef
+2. Välj **Bransch**: Dagligvaror
+3. Välj **Kampanjlängd**: 30 dagar
+4. Välj **Budgetnivå**: Rekommenderad
+
+**Resultat:**
+- Budget: 1,110 SEK
+- Förväntade klick: ~1,600
+- Rekommenderad kanal: Facebook (4.46% CTR)
+
+### Exempel: Utvecklare - IT & Tech
+
+1. Välj **Roll**: Utvecklare
+2. Välj **Bransch**: IT & Tech
+3. Välj **Kampanjlängd**: 30 dagar
+4. Välj **Budgetnivå**: Premium
+
+**Resultat:**
+- Budget: 1,860 SEK
+- Förväntade klick: ~135
+- Högre CPC men nischad målgrupp
+
+## 📊 Data
+
+Systemet analyserar:
+- **10,966 kampanjer** från verklig data
+- **4 plattformar**: Facebook, LinkedIn, Snapchat, TikTok
+- **50+ olika roller**
+- **30+ branscher**
+
+## 🔧 Teknisk Stack
+
+- **Python 3.9+**
+- **Streamlit** - Web framework
+- **Pandas** - Databearbetning
+- **Sentence-Transformers** - Semantisk likhet
+- **Plotly** - Visualiseringar
+- **scikit-learn** - ML utilities
+
+## 📈 Framtida Förbättringar
+
+- [ ] Integration med BigQuery för realtidsdata
+- [ ] A/B-test rekommendationer
+- [ ] Export av kampanjrapporter
+- [ ] API för programmatisk access
+- [ ] Fler ML-modeller (XGBoost, Neural Networks)
 
 ## 📝 License
 
-This project is proprietary software developed for job advertising optimization.
+[Din license här]
 
----
+## 👥 Kontakt
 
-**Built with ❤️ using AI and modern ML techniques**
+För frågor eller feedback, kontakta [din kontaktinfo]
