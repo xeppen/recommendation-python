@@ -16,6 +16,8 @@ warnings.filterwarnings('ignore')
 # Import the industry-aware recommendation engine and budget recommender
 from src.engines.recommendation_engine_v3 import IndustryAwareRecommendationEngine
 from src.engines.budget_recommender import BudgetRecommender
+from src.utils.data_driven_insights import DataDrivenInsights
+from src.utils.ai_insights_generator import AIInsightsGenerator
 
 # Page config
 st.set_page_config(
@@ -133,6 +135,122 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+def display_data_insights(role, channels_df, campaigns_df):
+    """Display AI and data-driven insights for channel recommendations"""
+    st.markdown("### 🧠 Data-drivna insikter")
+    
+    # Initiera insights generator
+    data_insights = DataDrivenInsights(campaigns_df)
+    ai_insights = AIInsightsGenerator(api_key=st.secrets.get("OPENAI_API_KEY", ""))
+    
+    # Få data-drivna insikter
+    role_insights = data_insights.get_role_insights(role)
+    
+    # Visa övergripande statistik
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("📊 Historiska kampanjer", role_insights['total_campaigns'])
+    with col2:
+        if role_insights['avg_performance']['ctr']:
+            st.metric("📈 Genomsnittlig CTR", f"{role_insights['avg_performance']['ctr']:.2f}%")
+    with col3:
+        if role_insights['avg_performance']['cpc']:
+            st.metric("💰 Genomsnittlig CPC", f"{role_insights['avg_performance']['cpc']:.0f} kr")
+    
+    # Visa bästa plattform baserat på data
+    if role_insights.get('best_platform'):
+        best = role_insights['best_platform']
+        st.success(f"**📊 Bästa plattformen enligt historisk data:** {best['platform']} - {best['reason']}")
+    
+    # Visa insikter per kanal
+    st.markdown("#### 📱 Kanalspecifika insikter (baserat på faktisk data)")
+    
+    for _, row in channels_df.iterrows():
+        platform = row['Platform']
+        
+        # Få statistisk konfidens
+        confidence = data_insights.get_statistical_confidence(role, platform)
+        
+        # Visa insikt med konfidensnivå
+        confidence_emoji = {
+            'high': '🟢',
+            'medium': '🟡', 
+            'low': '🔴'
+        }.get(confidence['confidence'], '⚪')
+        
+        with st.expander(f"{platform} {confidence_emoji} - {row['CTR']:.1f}% CTR, {row['CPC']:.0f} kr CPC"):
+            # Visa prestandadata
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Förväntad CTR", f"{row['CTR']:.2f}%")
+                st.metric("Förväntad CPC", f"{row['CPC']:.0f} kr")
+            with col2:
+                st.metric("Förväntade klick", f"{row['Expected_Clicks']:.0f}")
+                st.metric("Rekommenderad budget", f"{row['Budget']:.0f} kr")
+            
+            # Visa datadrivna insikter
+            st.markdown("**📊 Insikter från historisk data:**")
+            
+            # Jämför med genomsnitt
+            platform_comparison = data_insights.get_platform_comparison(role)
+            if not platform_comparison.empty and platform in platform_comparison.index:
+                platform_data = platform_comparison.loc[platform]
+                
+                insights_text = []
+                
+                # CTR-jämförelse
+                if 'CTR_Percent_mean' in platform_data:
+                    avg_ctr = platform_comparison['CTR_Percent_mean'].mean()
+                    if platform_data['CTR_Percent_mean'] > avg_ctr * 1.2:
+                        insights_text.append(f"✅ {((platform_data['CTR_Percent_mean']/avg_ctr - 1) * 100):.0f}% högre engagemang än genomsnittet")
+                    elif platform_data['CTR_Percent_mean'] < avg_ctr * 0.8:
+                        insights_text.append(f"⚠️ {((1 - platform_data['CTR_Percent_mean']/avg_ctr) * 100):.0f}% lägre engagemang än genomsnittet")
+                
+                # Datamängd
+                if 'CTR_Percent_count' in platform_data:
+                    if platform_data['CTR_Percent_count'] >= 10:
+                        insights_text.append(f"📊 Väl testad med {int(platform_data['CTR_Percent_count'])} kampanjer")
+                    elif platform_data['CTR_Percent_count'] < 5:
+                        insights_text.append(f"⚠️ Begränsad data ({int(platform_data['CTR_Percent_count'])} kampanjer)")
+                
+                # Stabilitet
+                if 'CTR_Percent_std' in platform_data and 'CTR_Percent_mean' in platform_data:
+                    if platform_data['CTR_Percent_std'] < platform_data['CTR_Percent_mean'] * 0.3:
+                        insights_text.append("🎯 Stabil prestanda över tid")
+                
+                for insight in insights_text:
+                    st.write(insight)
+            
+            # Visa AI-genererad förklaring
+            historical_data = {
+                'campaign_count': confidence['sample_size'],
+                'platform': platform
+            }
+            ai_insight = ai_insights._generate_rule_based_insight(
+                role, platform, row['CTR'], row['CPC'], historical_data
+            )
+            st.info(f"💡 {ai_insight}")
+            
+            # Konfidensnivå
+            st.markdown(f"**Statistisk säkerhet:** {confidence_emoji} {confidence['reason']}")
+    
+    # Visa rekommendationer
+    if role_insights.get('recommendations'):
+        st.markdown("#### 💡 Databaserade rekommendationer")
+        for rec in role_insights['recommendations']:
+            st.info(f"• {rec}")
+    
+    # Visa trender om tillgängliga
+    if role_insights.get('trends'):
+        trends = role_insights['trends']
+        with st.expander("📈 Identifierade trender"):
+            if 'best_location' in trends:
+                st.write(f"📍 **Bäst resultat i:** {trends['best_location']} ({trends.get('location_ctr', 0):.2f}% CTR)")
+            if 'optimal_budget_range' in trends:
+                st.write(f"💰 **Optimal budget:** {trends['optimal_budget_range']['min']:.0f} - {trends['optimal_budget_range']['max']:.0f} kr")
+            if 'most_stable_platform' in trends:
+                st.write(f"🎯 **Mest stabil plattform:** {trends['most_stable_platform']}")
+
 def display_recommendations(engine, budget_recommender, role: str, industry: Optional[str], 
                           campaign_days: int, selected_tier: str):
     """Display recommendations for a role + industry combination."""
@@ -222,7 +340,7 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
                 # Highlight selected tier
                 if is_selected:
                     st.success(f"**{tier_label}** ✓")
-                else:
+            else:
                     st.info(tier_label)
                 
                 st.metric(
@@ -300,6 +418,19 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
                     """, unsafe_allow_html=True)
                 
                 st.markdown("---")
+        
+        # Visa data-drivna insikter efter alla kanaler
+        st.markdown("### 🧠 Data-drivna insikter")
+        
+        # Lägg till Platform-kolumn för insiktsfunktionen
+        channels_df['Platform'] = channels_df['Kanal'].str.capitalize()
+        
+        # Hämta kampanjdata för insikter
+        try:
+            campaigns_df = pd.read_csv('data/processed/campaigns_clean_for_bigquery.csv')
+            display_data_insights(role, channels_df, campaigns_df)
+        except Exception as e:
+            st.info(f"💡 Data-drivna insikter kommer visas när historisk data är tillgänglig")
     
     # Suggested channel mix
     if recommendations['suggested_mix']:
@@ -568,7 +699,7 @@ def main():
                 help="Rekommenderad budget för 30 dagar"
             )
         with col2:
-            st.metric(
+                st.metric(
                 "Utvecklare - IT & Tech",
                 "1,450-1,860 SEK",
                 "~105-135 klick",
