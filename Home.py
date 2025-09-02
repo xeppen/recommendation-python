@@ -222,7 +222,7 @@ def display_recommendations(engine, budget_recommender, role: str, industry: Opt
                 # Highlight selected tier
                 if is_selected:
                     st.success(f"**{tier_label}** ✓")
-            else:
+                else:
                     st.info(tier_label)
                 
                 st.metric(
@@ -568,7 +568,7 @@ def main():
                 help="Rekommenderad budget för 30 dagar"
             )
         with col2:
-                st.metric(
+            st.metric(
                 "Utvecklare - IT & Tech",
                 "1,450-1,860 SEK",
                 "~105-135 klick",
