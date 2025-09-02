@@ -9,6 +9,12 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import warnings
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
 warnings.filterwarnings('ignore')
 
 # Page config
@@ -124,7 +130,7 @@ def load_and_process_data():
     """Load and process campaign data with role and industry."""
     try:
         # Load the complete campaign data
-        df = pd.read_csv('all_platforms_campaigns_complete.csv')
+        df = pd.read_csv('data/processed/all_platforms_campaigns_complete.csv')
         
         # Extract role and industry
         role_industry = df.apply(extract_role_and_industry, axis=1)
