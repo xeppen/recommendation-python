@@ -166,7 +166,7 @@ def display_data_insights(role, channels_df, campaigns_df):
     st.markdown("#### 📱 Kanalspecifika insikter (baserat på faktisk data)")
     
     for _, row in channels_df.iterrows():
-        platform = row['Platform']
+        platform = row.get('Platform', row.get('Kanal', 'Unknown'))
         
         # Få statistisk konfidens
         confidence = data_insights.get_statistical_confidence(role, platform)
@@ -178,15 +178,27 @@ def display_data_insights(role, channels_df, campaigns_df):
             'low': '🔴'
         }.get(confidence['confidence'], '⚪')
         
-        with st.expander(f"{platform} {confidence_emoji} - {row['CTR']:.1f}% CTR, {row['CPC']:.0f} kr CPC"):
+        ctr_val = row.get('CTR', 0)
+        cpc_val = row.get('CPC', row.get('CPC_SEK', 0))
+        
+        with st.expander(f"{platform} {confidence_emoji} - {ctr_val:.1f}% CTR, {cpc_val:.0f} kr CPC"):
             # Visa prestandadata
             col1, col2 = st.columns(2)
             with col1:
-                st.metric("Förväntad CTR", f"{row['CTR']:.2f}%")
-                st.metric("Förväntad CPC", f"{row['CPC']:.0f} kr")
+                if 'CTR' in row:
+                    st.metric("Förväntad CTR", f"{row['CTR']:.2f}%")
+                elif 'CTR_Percent' in row:
+                    st.metric("Förväntad CTR", f"{row['CTR_Percent']:.2f}%")
+                
+                if 'CPC' in row:
+                    st.metric("Förväntad CPC", f"{row['CPC']:.0f} kr")
+                elif 'CPC_SEK' in row:
+                    st.metric("Förväntad CPC", f"{row['CPC_SEK']:.0f} kr")
             with col2:
-                st.metric("Förväntade klick", f"{row['Expected_Clicks']:.0f}")
-                st.metric("Rekommenderad budget", f"{row['Budget']:.0f} kr")
+                if 'Expected_Clicks' in row:
+                    st.metric("Förväntade klick", f"{row['Expected_Clicks']:.0f}")
+                if 'Budget' in row:
+                    st.metric("Rekommenderad budget", f"{row['Budget']:.0f} kr")
             
             # Visa datadrivna insikter
             st.markdown("**📊 Insikter från historisk data:**")
