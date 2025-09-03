@@ -10,6 +10,10 @@ from google.oauth2 import service_account
 import json
 from typing import Optional, Dict, Any
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 class BigQueryConnector:
     """Handle BigQuery connections and queries"""
@@ -29,7 +33,28 @@ class BigQueryConnector:
     def initialize_connection(self, use_streamlit_secrets: bool):
         """Setup BigQuery client with authentication"""
         try:
-            if use_streamlit_secrets and 'gcp_service_account' in st.secrets:
+            # Försök först med miljövariabler
+            if os.getenv('GCP_PRIVATE_KEY'):
+                # Bygg service account info från miljövariabler
+                service_account_info = {
+                    "type": os.getenv('GCP_TYPE', 'service_account'),
+                    "project_id": os.getenv('GCP_PROJECT_ID'),
+                    "private_key_id": os.getenv('GCP_PRIVATE_KEY_ID'),
+                    "private_key": os.getenv('GCP_PRIVATE_KEY').replace('\\n', '\n'),
+                    "client_email": os.getenv('GCP_CLIENT_EMAIL'),
+                    "client_id": os.getenv('GCP_CLIENT_ID'),
+                    "auth_uri": os.getenv('GCP_AUTH_URI', 'https://accounts.google.com/o/oauth2/auth'),
+                    "token_uri": os.getenv('GCP_TOKEN_URI', 'https://oauth2.googleapis.com/token'),
+                    "auth_provider_x509_cert_url": os.getenv('GCP_AUTH_PROVIDER_CERT_URL', 'https://www.googleapis.com/oauth2/v1/certs'),
+                    "client_x509_cert_url": os.getenv('GCP_CLIENT_CERT_URL'),
+                    "universe_domain": os.getenv('GCP_UNIVERSE_DOMAIN', 'googleapis.com')
+                }
+                credentials = service_account.Credentials.from_service_account_info(
+                    service_account_info
+                )
+                self.project_id = os.getenv('GCP_PROJECT_ID')
+                self.dataset_id = os.getenv('GCP_DATASET_ID', 'recruitment_demo')
+            elif use_streamlit_secrets and 'gcp_service_account' in st.secrets:
                 # Använd Streamlit secrets för deployment
                 credentials = service_account.Credentials.from_service_account_info(
                     st.secrets["gcp_service_account"]

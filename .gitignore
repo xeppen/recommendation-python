@@ -36,6 +36,11 @@ Träningsdata*.xlsx
 real_job_campaigns.csv
 all_platforms_campaigns_complete.csv
 
+# Environment variables
+.env
+.env.local
+.env.production
+
 # Logs
 *.log
 

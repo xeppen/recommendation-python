@@ -12,3 +12,4 @@ sentence-transformers
 plotly
 scikit-learn
 numpy
+python-dotenv
